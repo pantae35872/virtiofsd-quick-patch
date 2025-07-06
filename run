@@ -1,0 +1,36 @@
+#!/bin/bash
+
+set -e
+
+echo "Patching virtiofsd"
+git clone https://gitlab.com/virtio-fs/virtiofsd.git
+cd virtiofsd
+git checkout v1.13.2 
+patch -p1 < ../virtiofsd.patch
+
+echo "Patching vhost"
+git clone https://github.com/rust-vmm/vhost.git
+cd vhost
+git checkout 875f679ca8a38e38161d106f08568b1618beb953 # v0.17.0 release
+patch -p1 < ../../vhost.patch
+cd ..
+
+echo "Patching vm-memory"
+wget https://github.com/rust-vmm/vm-memory/archive/refs/tags/v0.16.2.tar.gz
+tar xzf v0.16.2.tar.gz
+rm -rf v0.16.2.tar.gz
+cd vm-memory-0.16.2
+patch -p1 < ../../vm-memory.patch
+cd ..
+
+echo "Patching virtio-queue"
+wget https://github.com/rust-vmm/vm-virtio/archive/refs/tags/virtio-queue-v0.14.0.tar.gz
+tar xzf virtio-queue-v0.14.0.tar.gz
+rm -rf virtio-queue-v0.14.0.tar.gz
+cd vm-virtio-virtio-queue-v0.14.0
+patch -p1 < ../../vm-virtio-queue.patch
+cd ..
+
+cargo build --release
+cd ..
+mv virtiofsd/target/release/virtiofsd virtiofsd-patched
