@@ -2,6 +2,8 @@
 
 set -e
 
+rm -rf virtiofsd-patched virtiofsd # Remove if exists
+
 echo "Patching virtiofsd"
 git clone https://gitlab.com/virtio-fs/virtiofsd.git
 cd virtiofsd
