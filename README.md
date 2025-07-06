@@ -13,6 +13,7 @@ cd virtiofsd-quick-patch
 
 ./run # Start patching
 
-# replace the existing virtiofsd, usually in /usr/lib/virtiofsd for unix systems
+# Replace the existing virtiofsd, usually in /usr/lib/virtiofsd for unix systems
+# Important !! Make sure the vm is not running !!
 sudo cp virtiofsd-patched /usr/lib/virtiofsd
 ```
